@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    container_name: pg_financial_db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=financial
+      - POSTGRES_PASSWORD=f1n@nc1Al
+      - POSTGRES_DB=financial_db
+    volumes:
+      - ./data:/var/lib/postgresql/data
