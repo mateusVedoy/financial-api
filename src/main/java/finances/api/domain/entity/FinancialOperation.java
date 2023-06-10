@@ -1,0 +1,78 @@
+package finances.api.domain.entity;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+public class FinancialOperation extends Entity {
+    private String type;
+    private double amount;
+    private LocalDateTime executedAt;
+
+    public FinancialOperation(){}
+
+    //for explicit date
+    public FinancialOperation(
+            String type,
+            double amount,
+            LocalDateTime date
+    ){
+        this.type = setType(type);
+        this.amount = amount;
+        this.executedAt = date;
+        this.validate();
+    }
+
+    //for implicit date
+    public FinancialOperation(
+            String type,
+            double amount
+    ){
+        this.type = setType(type);
+        this.amount = amount;
+        this.executedAt = LocalDateTime.parse(new Date().toString());
+        this.validate();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public LocalDateTime getExecutedAt() {
+        return executedAt;
+    }
+
+    @Override
+    protected void validate() {
+        if(this.isOperationTypeInvalid())
+            super.addError("Operation type cannot be empty or null.", "domain.FinancialOperation.type");
+        if(!this.isAmountAValidValue())
+            super.addError("Operation amount value cannot be zero or less.", "domain.FinancialOperation.amount");
+        if(this.isExecutedAtInvalid())
+            super.addError("Operation date and hour cannot be empty.", "domain.FinancialOperation.executedAt");
+    }
+
+    private boolean isOperationTypeInvalid() {
+        return this.type == null || this.type.isBlank() || this.type.isEmpty();
+    }
+
+    private boolean isAmountAValidValue() {
+        return this.amount > 0;
+    }
+
+    private boolean isExecutedAtInvalid() {
+        return this.executedAt == null || this.executedAt.toString().isBlank() || this.executedAt.toString().isEmpty();
+    }
+
+    private String setType(String type) {
+        if(type.equals("input"))
+            return OperationType.IN.getValue();
+        else if(type.equals("output"))
+            return OperationType.OUT.getValue();
+        else
+            return null;
+    }
+}
