@@ -1,0 +1,15 @@
+version: 0.0.0
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: financial-api
+  profiles:
+    active: "development"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${FINANCIAL_DB_USER}
+    password: ${FINANCIAL_DB_PWD}
+    url: jdbc:postgresql://localhost:5432/${FINANCIAL_DB_DATABASE}
