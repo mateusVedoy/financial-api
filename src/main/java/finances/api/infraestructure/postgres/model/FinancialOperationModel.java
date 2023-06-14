@@ -11,7 +11,7 @@ public class FinancialOperationModel {
     @Column(name = "fop_code")
     private Long id;
 
-    @Column(name = "fop_type")
+    @Column(name = "ope_code")
     private Long type;
 
     @Column(name = "fop_amount")
@@ -20,6 +20,7 @@ public class FinancialOperationModel {
     @Column(name = "fop_executedAt")
     private LocalDateTime executedAt;
 
+   public FinancialOperationModel(){}
     public FinancialOperationModel(String type, double amount, LocalDateTime executedAt){
         this.type = setType(type);
         this.amount = amount;
