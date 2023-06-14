@@ -4,9 +4,9 @@ public enum OperationTypeDTO {
     IN ("input"),
     OUT ("output");
 
-    private String value;
+    private final String value;
     OperationTypeDTO(String value) {
-        value = value;
+        this.value = value;
     }
 
     public String getValue() {
