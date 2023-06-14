@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 public class FinancialOperationDTO {
+    private Long id;
     private String type;
     private double amount;
     private LocalDate date;
@@ -23,6 +24,18 @@ public class FinancialOperationDTO {
         this.amount = amount;
         this.date = date;
         this.hour = hour;
+    }
+
+    public FinancialOperationDTO(Long id, String type, double amount, LocalDate date, LocalTime hour) {
+        this.id = id;
+        this.type = type;
+        this.amount = amount;
+        this.date = date;
+        this.hour = hour;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getType() {

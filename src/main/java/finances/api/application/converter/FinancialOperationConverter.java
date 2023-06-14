@@ -19,6 +19,7 @@ public class FinancialOperationConverter implements IConverter<FinancialOperatio
     @Override
     public FinancialOperationDTO convert(FinancialOperation obj) throws BusinessValidationException {
         return new FinancialOperationDTO(
+                obj.getId(),
                 setType(obj.getType()),
                 obj.getAmount(),
                 resolveDate(obj.getExecutedAt()),
