@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class FinancialOperation extends Entity {
+
+    private Long id;
     private String type;
     private double amount;
     private LocalDateTime executedAt;
@@ -31,6 +33,17 @@ public class FinancialOperation extends Entity {
         this.amount = amount;
         this.executedAt = LocalDateTime.parse(new Date().toString());
         this.validate();
+    }
+
+    public FinancialOperation(Long id, Long type, double amount, LocalDateTime executedAt) {
+        this.id = id;
+        this.type = setType(type);
+        this.amount = amount;
+        this.executedAt = executedAt;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getType() {
@@ -71,6 +84,15 @@ public class FinancialOperation extends Entity {
         if(type.equals("input"))
             return OperationType.IN.getValue();
         else if(type.equals("output"))
+            return OperationType.OUT.getValue();
+        else
+            return null;
+    }
+
+    private String setType(Long type) {
+        if(type == 1L)
+            return OperationType.IN.getValue();
+        else if(type == 2L)
             return OperationType.OUT.getValue();
         else
             return null;
