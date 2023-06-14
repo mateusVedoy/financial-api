@@ -3,6 +3,8 @@ package finances.api.application.useCase;
 import finances.api.application.converter.FinancialOperationDTOConverter;
 import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.response.APIResponse;
+import finances.api.application.response.ResponseError;
+import finances.api.application.response.ResponseSuccess;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.exception.BusinessValidationException;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
@@ -23,9 +25,9 @@ public class CreateFinancialOperation {
         try{
             FinancialOperation operation = converter.convert(dto);
             repository.save(operation);
-            return new APIResponse(201, SUCCESS, operation.getErrors());
+            return new ResponseSuccess<>(201, SUCCESS);
         }catch(BusinessValidationException error) {
-            return new APIResponse(400, ERROR, error.getErrors());
+            return new ResponseError(400, ERROR, error.getErrors());
         }
     }
 }
