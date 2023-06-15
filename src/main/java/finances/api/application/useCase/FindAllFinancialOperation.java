@@ -5,7 +5,7 @@ import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseSuccess;
 import finances.api.domain.entity.FinancialOperation;
-import finances.api.domain.exception.BusinessValidationException;
+import finances.api.domain.exception.BusinessValidationError;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class FindAllFinancialOperation {
         list.forEach(value -> {
             try {
                 operationList.add(converter.convert(value));
-            } catch (BusinessValidationException e) {
+            } catch (BusinessValidationError e) {
                 throw new RuntimeException(e); //ajustar depois o tipo de erro
             }
         });

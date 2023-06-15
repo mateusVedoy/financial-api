@@ -5,7 +5,7 @@ import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.dto.OperationTypeDTO;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.entity.OperationType;
-import finances.api.domain.exception.BusinessValidationException;
+import finances.api.domain.exception.BusinessValidationError;
 import finances.api.domain.port.IConverter;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import java.time.LocalTime;
 public class FinancialOperationConverter implements IConverter<FinancialOperationDTO, FinancialOperation> {
 
     @Override
-    public FinancialOperationDTO convert(FinancialOperation obj) throws BusinessValidationException {
+    public FinancialOperationDTO convert(FinancialOperation obj) throws BusinessValidationError {
         return new FinancialOperationDTO(
                 obj.getId(),
                 setType(obj.getType()),

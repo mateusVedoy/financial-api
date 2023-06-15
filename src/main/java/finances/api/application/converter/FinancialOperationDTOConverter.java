@@ -2,7 +2,7 @@ package finances.api.application.converter;
 
 import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.domain.entity.FinancialOperation;
-import finances.api.domain.exception.BusinessValidationException;
+import finances.api.domain.exception.BusinessValidationError;
 import finances.api.domain.port.IConverter;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @Component
 public class FinancialOperationDTOConverter implements IConverter<FinancialOperation, FinancialOperationDTO> {
     @Override
-    public FinancialOperation convert(FinancialOperationDTO dto) throws BusinessValidationException {
+    public FinancialOperation convert(FinancialOperationDTO dto) throws BusinessValidationError {
         String type = dto.getType();
         double amount = this.getAmount(dto);
         LocalDateTime date = this.getDateAndHour(dto);
@@ -21,7 +21,7 @@ public class FinancialOperationDTOConverter implements IConverter<FinancialOpera
         if(operation.isValid())
             return operation;
         else
-            throw new BusinessValidationException(operation.getErrors());
+            throw new BusinessValidationError(operation.getErrors());
     }
     private double getAmount(FinancialOperationDTO dto) {
         return dto.getAmount();

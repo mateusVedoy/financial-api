@@ -2,7 +2,7 @@ package finances.api.infraestructure.repository;
 
 import finances.api.application.converter.FinancialOperationModelConverter;
 import finances.api.domain.entity.FinancialOperation;
-import finances.api.domain.exception.BusinessValidationException;
+import finances.api.domain.exception.BusinessValidationError;
 import finances.api.domain.port.IRepository;
 import finances.api.infraestructure.postgres.IFinancialOperationRepository;
 import finances.api.infraestructure.postgres.model.FinancialOperationModel;
@@ -37,7 +37,7 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
         list.forEach(value -> {
             try {
                 operationList.add(converter.convert(value));
-            } catch (BusinessValidationException e) {
+            } catch (BusinessValidationError e) {
                 throw new RuntimeException(e); //ajustar depois o tipo de erro
             }
         });

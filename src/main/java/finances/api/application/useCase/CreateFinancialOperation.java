@@ -6,7 +6,7 @@ import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseError;
 import finances.api.application.response.ResponseSuccess;
 import finances.api.domain.entity.FinancialOperation;
-import finances.api.domain.exception.BusinessValidationException;
+import finances.api.domain.exception.BusinessValidationError;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class CreateFinancialOperation {
             FinancialOperation operation = converter.convert(dto);
             repository.save(operation);
             return new ResponseSuccess<>(201, SUCCESS);
-        }catch(BusinessValidationException error) {
+        }catch(BusinessValidationError error) {
             return new ResponseError(400, ERROR, error.getErrors());
         }
     }

@@ -1,6 +1,8 @@
 package finances.api.domain.entity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class FinancialOperation extends Entity {
@@ -31,7 +33,7 @@ public class FinancialOperation extends Entity {
     ){
         this.type = setType(type);
         this.amount = amount;
-        this.executedAt = LocalDateTime.parse(new Date().toString());
+        this.executedAt = setImplicitDateTime();
         this.validate();
     }
 
@@ -96,5 +98,10 @@ public class FinancialOperation extends Entity {
             return OperationType.OUT.getValue();
         else
             return null;
+    }
+
+    private LocalDateTime setImplicitDateTime() {
+        Date date = new Date();
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withNano(0);
     }
 }
