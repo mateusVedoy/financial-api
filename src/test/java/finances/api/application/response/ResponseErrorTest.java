@@ -15,17 +15,21 @@ public class ResponseErrorTest {
     BusinessException second_error = new BusinessException("second error", "second.error");
 
     @Test
-    public void shouldInstantiateSuccessfullyResponseError() {
+    public void shouldInstantiateSuccessfullyResponseErrorWithBusinessException() {
         List<BusinessException> errors = new ArrayList<>(List.of(
                 first_error,
                 second_error
         ));
-        List<Message> message_errors = new ArrayList<>(List.of(
-                new Message("first error", "first.error"),
-                new Message("second error", "second.error")
-        ));
         ResponseError response = new ResponseError(400, "Error occurred", errors);
         assertEquals(response.getErrors().size(), 2);
+        assertEquals(response.getStatus(), 400);
+    }
+
+    @Test
+    public void shouldInstantiateSuccessfullyResponseErrorWithAnyException() {
+        RuntimeException ex = new RuntimeException("error mocked");
+        ResponseError response = new ResponseError(400, "Error occurred", ex);
+        assertEquals(response.getErrors().size(), 1);
         assertEquals(response.getStatus(), 400);
     }
 }
