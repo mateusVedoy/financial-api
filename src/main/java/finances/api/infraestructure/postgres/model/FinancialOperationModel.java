@@ -27,6 +27,13 @@ public class FinancialOperationModel {
         this.executedAt = executedAt;
     }
 
+    public FinancialOperationModel(Long id, Long type, double amount, LocalDateTime executedAt) {
+        this.id = id;
+        this.type = type;
+        this.amount = amount;
+        this.executedAt = executedAt;
+    }
+
     public Long getId() {
         return id;
     }
