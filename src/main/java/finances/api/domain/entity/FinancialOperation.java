@@ -2,7 +2,6 @@ package finances.api.domain.entity;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class FinancialOperation extends Entity {
@@ -42,6 +41,7 @@ public class FinancialOperation extends Entity {
         this.type = setType(type);
         this.amount = amount;
         this.executedAt = executedAt;
+        this.validate();
     }
 
     public Long getId() {
