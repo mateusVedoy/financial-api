@@ -14,6 +14,11 @@ public class ResponseError extends APIResponse implements IAPIResponse{
         this.errors = buildMessagesFromBusinessException(errors);
     }
 
+    public ResponseError(int status, String message, Exception ex) {
+        super(status, message);
+        errors = convertAnyExceptionToMessageList(ex);
+    }
+
     @Override
     public IAPIResponse build() {
         return this;
@@ -45,5 +50,15 @@ public class ResponseError extends APIResponse implements IAPIResponse{
     @Override
     public String getMessage() {
         return super.getMessage();
+    }
+
+    private List<Message> convertAnyExceptionToMessageList(Exception ex) {
+        return new ArrayList<>(List.of(
+                new Message(ex.getMessage(), setStackTraceByErrorMessage(ex.getMessage()))
+        ));
+    }
+
+    private String setStackTraceByErrorMessage(String message) {
+        return message.replace(" ", ".");
     }
 }
