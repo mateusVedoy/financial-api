@@ -28,6 +28,8 @@ public class CreateFinancialOperation {
             return new ResponseSuccess<>(201, SUCCESS);
         }catch(BusinessValidationError error) {
             return new ResponseError(400, ERROR, error.getErrors());
+        }catch (Exception ex) {
+            return new ResponseError(400, ERROR, ex);
         }
     }
 }
