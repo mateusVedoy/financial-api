@@ -2,6 +2,7 @@ package finances.api.infraestructure.repository;
 
 import finances.api.application.converter.FinancialOperationModelConverter;
 import finances.api.domain.entity.FinancialOperation;
+import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
 import finances.api.domain.port.IRepository;
 import finances.api.infraestructure.postgres.IFinancialOperationRepository;
@@ -38,18 +39,17 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
             try {
                 operationList.add(converter.convert(value));
             } catch (BusinessValidationError e) {
-                throw new RuntimeException(e); //ajustar depois o tipo de erro
+                throw new BusinessException("Error during converting model to entity", "convert.model.to.entity");
             }
         });
         return operationList;
     }
 
     private FinancialOperationModel convert(FinancialOperation entity) {
-        var model = new FinancialOperationModel(
+        return new FinancialOperationModel(
                 entity.getType(),
                 entity.getAmount(),
                 entity.getExecutedAt()
         );
-        return model;
     }
 }
