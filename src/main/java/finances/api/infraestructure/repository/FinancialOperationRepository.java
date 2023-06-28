@@ -23,7 +23,7 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
 
     @Override
     public FinancialOperation save(FinancialOperation entity) {
-        var model = convert(entity);
+        var model = convertToModel(entity);
         repository.save(model);
         return entity;
     }
@@ -31,6 +31,18 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
     @Override
     public List<FinancialOperation> findAll() {
       return convertList(repository.findAll());
+    }
+
+    public FinancialOperation findById(Long id) {
+        return convertToDomain(repository.findById(id).get());
+    }
+
+    private FinancialOperation convertToDomain(FinancialOperationModel model) {
+        try{
+            return converter.convert(model);
+        } catch (BusinessValidationError e) {
+            throw new BusinessException("Error during converting model to entity", "convert.model.to.entity");
+        }
     }
 
     private List<FinancialOperation> convertList(List<FinancialOperationModel> list) {
@@ -45,7 +57,7 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
         return operationList;
     }
 
-    private FinancialOperationModel convert(FinancialOperation entity) {
+    private FinancialOperationModel convertToModel(FinancialOperation entity) {
         return new FinancialOperationModel(
                 entity.getType(),
                 entity.getAmount(),
