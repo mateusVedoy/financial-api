@@ -66,4 +66,22 @@ class FindFinancialOperationByIdTest {
         assertEquals(findFinancialOperationById.findById(anyLong()).getMessage(), "There's no data to be fetched");
         assertEquals(findFinancialOperationById.findById(anyLong()).getStatus(), 200);
     }
+
+    @Test
+    public void shouldReturnResponseErrorWhenCatchException() {
+        given(repository.findById(anyLong())).willThrow(new RuntimeException());
+        assertInstanceOf(ResponseError.class, findFinancialOperationById.findById(anyLong()));
+        assertEquals(findFinancialOperationById.findById(anyLong()).getMessage(), "Something went wrong. Consult errors.");
+        assertEquals(findFinancialOperationById.findById(anyLong()).getStatus(), 400);
+    }
+
+    @Test
+    public void shouldCallConverterOnceWhenRecoverDataWithSuccess() throws BusinessValidationError {
+        FinancialOperation operation = new FinancialOperation(1L, 1L, 100, ts);
+        FinancialOperationDTO dto = new FinancialOperationDTO(1L, "Input", 100, date, time);
+        given(repository.findById(anyLong())).willReturn(operation);
+        given(converter.convert(operation)).willReturn(dto);
+        findFinancialOperationById.findById(anyLong());
+        verify(converter, times(1)).convert(operation);
+    }
 }
