@@ -101,7 +101,6 @@ public class FinancialOperation extends Entity {
     }
 
     private LocalDateTime setImplicitDateTime() {
-        Date date = new Date();
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withNano(0);
+        return new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withNano(0);
     }
 }
