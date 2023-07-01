@@ -59,6 +59,12 @@ public class ResponseError extends APIResponse implements IAPIResponse{
     }
 
     private String setStackTraceByErrorMessage(String message) {
-        return message.replace(" ", ".");
+        if(!isStringNullOrEmpty(message))
+            return message.replace(" ", ".");
+        return null;
+    }
+
+    private boolean isStringNullOrEmpty(String value) {
+        return value == null || value.isEmpty() || value.isBlank();
     }
 }
