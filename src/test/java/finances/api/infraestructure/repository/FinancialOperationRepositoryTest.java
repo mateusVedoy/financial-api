@@ -15,12 +15,11 @@ import org.mockito.Mock;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -72,7 +71,6 @@ public class FinancialOperationRepositoryTest {
         verify(repo).save(argument.capture());
     }
 
-    //devolve findAll com tais dados
     @Test
     public void shouldReturnsDataFromJPARepositoryWhenCallsFindAllMethod() throws BusinessValidationError {
         LocalDateTime ts = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withNano(0);
@@ -86,7 +84,6 @@ public class FinancialOperationRepositoryTest {
         assertEquals(repository.findAll(), new ArrayList<>(List.of(op1)));
     }
 
-    //devolve business exception ao tentar converter
     @Test
     public void shouldThrownBusinessExceptionWhenTryToConvertModelToEntity() throws BusinessValidationError {
         FinancialOperationModel model1 = new FinancialOperationModel(1L, 2L, 1200, null);
@@ -99,6 +96,27 @@ public class FinancialOperationRepositoryTest {
             @Override
             public void execute() throws Throwable {
                 repository.findAll();
+            }
+        });
+    }
+    @Test
+    public void shouldReturnAFinancialOperationInstanceWhenSearchWithAValidId() throws BusinessValidationError {
+        FinancialOperationModel model1 = new FinancialOperationModel(1L, 2L, 1200, null);
+        FinancialOperation op1 = new FinancialOperation(1L, 2L, 1200, ts);
+        given(repo.findById(anyLong())).willReturn(Optional.of(model1));
+        given(converter.convert(model1)).willReturn(op1);
+        FinancialOperation operation = repository.findById(1L);
+        assertEquals(operation, op1);
+    }
+    @Test
+    public void shouldThrownNoSuchElementExceptionWhenSearchWithAnInvalidId() throws BusinessValidationError {
+        FinancialOperationModel model1 = new FinancialOperationModel(1L, 2L, 1200, null);
+        FinancialOperation op1 = new FinancialOperation(1L, 2L, 1200, ts);
+        given(converter.convert(model1)).willReturn(op1);
+        assertThrows(NoSuchElementException.class, new Executable() {
+            @Override
+            public void execute() throws Throwable {
+                repository.findById(anyLong());
             }
         });
     }
