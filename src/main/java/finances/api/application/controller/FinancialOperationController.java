@@ -24,7 +24,7 @@ public class FinancialOperationController {
     @PostMapping(value = "/save")
     public ResponseEntity save(@RequestBody FinancialOperationDTO dto) {
         APIResponse response = createFinancialOperation.save(dto);
-        return new ResponseEntity<>(response, HttpStatus.resolve(response.getStatus()));
+        return new ResponseEntity<APIResponse>(response, HttpStatus.resolve(response.getStatus()));
     }
 
     @GetMapping(value = "/find/all")
