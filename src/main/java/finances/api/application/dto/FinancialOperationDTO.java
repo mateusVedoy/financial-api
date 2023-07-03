@@ -53,4 +53,15 @@ public class FinancialOperationDTO {
     public LocalTime getHour() {
         return hour;
     }
+
+    @Override
+    public String toString() {
+        return "FinancialOperationDTO: {" +
+                "id:" + id +
+                ", type:'" + type + '\'' +
+                ", amount:" + amount +
+                ", date:" + date +
+                ", hour:" + hour +
+                '}';
+    }
 }
