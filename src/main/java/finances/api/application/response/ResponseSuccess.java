@@ -33,4 +33,29 @@ public class ResponseSuccess<T> extends APIResponse implements IAPIResponse {
     public String getMessage() {
         return super.getMessage();
     }
+
+    private String getObjectsToStringFromData() {
+        if(hasData()){
+            StringBuilder builder = new StringBuilder();
+            builder.append("[ ");
+            this.data.forEach(value -> {
+                builder.append(value.toString());
+                builder.append(" ");
+            });
+            builder.append("]");
+            return builder.toString();
+        }
+        return null;
+    }
+    private boolean hasData() {
+        return this.data != null && this.data.size() > 0;
+    }
+    @Override
+    public String toString() {
+        return "ResponseSuccess: {" +
+                "data:" + getObjectsToStringFromData() +
+                ", status:" + status +
+                ", message:'" + message + '\'' +
+                '}';
+    }
 }
