@@ -16,4 +16,12 @@ public class Message {
     public String getStacktrace() {
         return stacktrace;
     }
+
+    @Override
+    public String toString() {
+        return "Message: {" +
+                "message:'" + message + '\'' +
+                ", stacktrace:'" + stacktrace + '\'' +
+                '}';
+    }
 }
