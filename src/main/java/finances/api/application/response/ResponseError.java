@@ -67,4 +67,29 @@ public class ResponseError extends APIResponse implements IAPIResponse{
     private boolean isStringNullOrEmpty(String value) {
         return value == null || value.isEmpty() || value.isBlank();
     }
+
+    private String getObjectsToStringFromErrors() {
+        if(hasErrors()){
+            StringBuilder builder = new StringBuilder();
+            builder.append("[ ");
+            this.errors.forEach(value -> {
+                builder.append(value.toString());
+                builder.append(" ");
+            });
+            builder.append("]");
+            return builder.toString();
+        }
+        return null;
+    }
+    private boolean hasErrors() {
+        return this.errors != null && this.errors.size() > 0;
+    }
+    @Override
+    public String toString() {
+        return "ResponseError{" +
+                "errors:" + getObjectsToStringFromErrors() +
+                ", status:" + status +
+                ", message:'" + message + '\'' +
+                '}';
+    }
 }
