@@ -60,4 +60,24 @@ class FinancialOperationControllerTest {
         String responseToString = "ResponseSuccess: {data:[ FinancialOperationDTO: {id:1, type:'Input', amount:100.0, date:2023-07-09, hour:11:09:11} ], status:201, message:'Financial Operation saved successfully.'}";
         assertEquals(result.getBody().toString(), responseToString);
     }
+    @Test
+    public void shouldResponseWithOneErrorWhenSomethingWentWrong() {
+        RuntimeException runtimeException = new RuntimeException("Mocked runtime exception");
+        ResponseError error = new ResponseError(400, "Something went wrong. Consult errors.", runtimeException);
+        given(findFinancialOperationById.findById(anyLong())).willReturn(error);
+        ResponseEntity result = controller.findById(1L);
+        String responseToString = "ResponseError{errors:[ Message: {message:'Mocked runtime exception', stacktrace:'Mocked.runtime.exception'} ], status:400, message:'Something went wrong. Consult errors.'}";
+        assertEquals(result.getBody().toString(), responseToString);
+    }
+    @Test
+    public void shouldResponseWithErrorListWhenSomethingWithMultipleErrorsWentWrong() {
+        BusinessException exceptionOne = new BusinessException("Error One", "Error One");
+        BusinessException exceptionTwo = new BusinessException("Error Two", "Error Two");
+        BusinessException exceptionThree = new BusinessException("Error Three", "Error Three");
+        ResponseError error = new ResponseError(400, "Something went wrong. Consult errors.", List.of(exceptionOne, exceptionTwo, exceptionThree));
+        given(createFinancialOperation.save(dto)).willReturn(error);
+        ResponseEntity result = controller.save(dto);
+        String responseToString = "ResponseError{errors:[ Message: {message:'Error One', stacktrace:'Error One'} Message: {message:'Error Two', stacktrace:'Error Two'} Message: {message:'Error Three', stacktrace:'Error Three'} ], status:400, message:'Something went wrong. Consult errors.'}";
+        assertEquals(result.getBody().toString(), responseToString);
+    }
 }
