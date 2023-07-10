@@ -34,6 +34,11 @@ public class ResponseSuccess<T> extends APIResponse implements IAPIResponse {
         return super.getMessage();
     }
 
+    @Override
+    public List getContent() {
+        return data;
+    }
+
     private String getObjectsToStringFromData() {
         if(hasData()){
             StringBuilder builder = new StringBuilder();

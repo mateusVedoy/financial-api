@@ -52,6 +52,11 @@ public class ResponseError extends APIResponse implements IAPIResponse{
         return super.getMessage();
     }
 
+    @Override
+    public List<Message> getContent() {
+        return errors;
+    }
+
     private List<Message> convertAnyExceptionToMessageList(Exception ex) {
         return new ArrayList<>(List.of(
                 new Message(ex.getMessage(), setStackTraceByErrorMessage(ex.getMessage()))
