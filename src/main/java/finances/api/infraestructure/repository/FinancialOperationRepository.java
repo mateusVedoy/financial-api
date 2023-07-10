@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class FinancialOperationRepository implements IRepository<FinancialOperation> {
@@ -33,9 +34,17 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
       return convertList(repository.findAll());
     }
 
+    @Override
     public FinancialOperation findById(Long id) {
         return convertToDomain(repository.findById(id).get());
     }
+
+    @Override
+    public List<FinancialOperation> findByPeriod(String initialDate, String finalDate) {
+        List<FinancialOperationModel> results = repository.findCodeAndAmountFromFinancialOperationByPeriod(initialDate, finalDate);
+        return convertList(results);
+    }
+
 
     private FinancialOperation convertToDomain(FinancialOperationModel model) {
         try{
