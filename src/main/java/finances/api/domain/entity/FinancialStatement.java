@@ -1,21 +1,22 @@
 package finances.api.domain.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 public class FinancialStatement {
     private String state;
     private double balance;
-    private Date startDate;
-    private Date finalDate;
+    private LocalDate startDate;
+    private LocalDate finalDate;
     private List<FinancialOperation> operations;
 
     public FinancialStatement(){}
 
     public FinancialStatement(
             double balance,
-            Date startDate,
-            Date finalDate
+            LocalDate startDate,
+            LocalDate finalDate
     ){
         this.balance = balance;
         this.startDate = startDate;
@@ -41,11 +42,11 @@ public class FinancialStatement {
         return balance;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getFinalDate() {
+    public LocalDate getFinalDate() {
         return finalDate;
     }
 
