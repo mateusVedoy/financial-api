@@ -1,11 +1,10 @@
 package finances.api.application.response;
 
-import finances.api.domain.port.IAPIResponse;
-
 import java.util.List;
 
-public class ResponseSuccess<T> extends APIResponse implements IAPIResponse {
+public class ResponseSuccess<T> extends APIResponse {
     private List<T> data;
+
     public ResponseSuccess(int status, String message) {
         super(status, message);
     }
@@ -13,11 +12,6 @@ public class ResponseSuccess<T> extends APIResponse implements IAPIResponse {
     public ResponseSuccess(int status, String message, List<T> data) {
         super(status, message);
         this.data = data;
-    }
-
-    @Override
-    public IAPIResponse build() {
-        return this;
     }
 
     public List<T> getData() {
@@ -35,8 +29,8 @@ public class ResponseSuccess<T> extends APIResponse implements IAPIResponse {
     }
 
     @Override
-    public List getContent() {
-        return data;
+    public List content() {
+        return this.data;
     }
 
     private String getObjectsToStringFromData() {

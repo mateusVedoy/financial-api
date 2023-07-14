@@ -1,12 +1,11 @@
 package finances.api.application.response;
 
 import finances.api.domain.exception.BusinessException;
-import finances.api.domain.port.IAPIResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseError extends APIResponse implements IAPIResponse{
+public class ResponseError extends APIResponse {
     private List<Message> errors;
 
     public ResponseError(int status, String message, List<BusinessException> errors) {
@@ -17,11 +16,6 @@ public class ResponseError extends APIResponse implements IAPIResponse{
     public ResponseError(int status, String message, Exception ex) {
         super(status, message);
         errors = convertAnyExceptionToMessageList(ex);
-    }
-
-    @Override
-    public IAPIResponse build() {
-        return this;
     }
 
     private List<Message> buildMessagesFromBusinessException(List<BusinessException> errors) {
@@ -53,7 +47,7 @@ public class ResponseError extends APIResponse implements IAPIResponse{
     }
 
     @Override
-    public List<Message> getContent() {
+    public List<Message> content() {
         return errors;
     }
 
