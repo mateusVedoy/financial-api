@@ -10,12 +10,14 @@ API to feed web interface with financial data from user.
 FINANCIAL_DB_USER
 FINANCIAL_DB_PWD
 FINANCIAL_DB_DATABASE
+FINANCIAL_DB_PORT
 ```
 Obs:
 * If you're going to run docker-compose.yml, set values to variables as bellow:
   * FINANCIAL_DB_USER=financial 
   * FINANCIAL_DB_PWD=f1n@nc1Al 
   * FINANCIAL_DB_DATABASE=financial_db
+  * FINANCIAL_DB_PORT=1234
 
 
 <h6>Running docker-compose file</h6>
