@@ -3,7 +3,7 @@ import finances.api.domain.exception.BusinessException;
 
 import java.util.List;
 
-public abstract class APIResponse<T> {
+public abstract class APIResponse<T>  {
     protected int status;
     protected String message;
 
@@ -22,5 +22,5 @@ public abstract class APIResponse<T> {
     }
 
     //TODO: testar se esse método vai ser capaz de devolver dados de erro ou de data das classes filhas
-    public abstract List<T> getContent();
+    public abstract List<T> content();
 }
