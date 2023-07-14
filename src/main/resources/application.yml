@@ -4,6 +4,8 @@ server:
   port: 8080
 
 spring:
+  jackson:
+    default-property-inclusion: NON_NULL
   application:
     name: financial-api
   profiles:
@@ -12,4 +14,4 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${FINANCIAL_DB_USER}
     password: ${FINANCIAL_DB_PWD}
-    url: jdbc:postgresql://localhost:5432/${FINANCIAL_DB_DATABASE}
+    url: jdbc:postgresql://localhost:${FINANCIAL_DB_PORT}/${FINANCIAL_DB_DATABASE}
