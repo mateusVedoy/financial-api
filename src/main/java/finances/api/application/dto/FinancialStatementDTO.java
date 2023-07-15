@@ -5,7 +5,7 @@ import java.util.List;
 public class FinancialStatementDTO {
     private String state;
     private double balance;
-    private String period;
+    private FinancialStatementPeriodDTO period;
     private List<FinancialOperationDTO> financialOperations;
 
     public FinancialStatementDTO(String state, double balance, String initialDate, String finalDate) {
@@ -14,8 +14,8 @@ public class FinancialStatementDTO {
         this.period = setPeriod(initialDate, finalDate);
     }
 
-    private String setPeriod(String init, String fin) {
-        return init.concat(" - ").concat(fin);
+    private FinancialStatementPeriodDTO setPeriod(String init, String fin) {
+        return new FinancialStatementPeriodDTO(init, fin);
     }
     public void setFinancialOperations(List<FinancialOperationDTO> financialOperations) {
         this.financialOperations = financialOperations;
@@ -29,7 +29,7 @@ public class FinancialStatementDTO {
         return balance;
     }
 
-    public String getPeriod() {
+    public FinancialStatementPeriodDTO getPeriod() {
         return period;
     }
 
