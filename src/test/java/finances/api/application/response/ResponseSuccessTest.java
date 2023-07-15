@@ -14,7 +14,7 @@ public class ResponseSuccessTest {
         ResponseSuccess<String> response = new ResponseSuccess<>(201, "Action scheduled successfully");
         assertEquals(response.getStatus(), 201);
         assertEquals(response.getMessage(), "Action scheduled successfully");
-        assertNull(response.getData());
+        assertNull(response.content());
     }
 
     @Test
@@ -32,6 +32,6 @@ public class ResponseSuccessTest {
                 data
         );
 
-        assertEquals(response.getData(),data);
+        assertEquals(response.content(),data);
     }
 }
