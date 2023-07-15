@@ -17,6 +17,7 @@ import java.util.List;
 public class ProduceFinancialStatementByPeriod {
 
     private static final String SUCCESS = "Financial statement by period bellow. ";
+    private static final String EMPTY_SUCCESS = "There's no financial operation for period";
     @Autowired
     private FindFinancialOperationByPeriod findFinancialOperationByPeriod;
 
@@ -27,6 +28,9 @@ public class ProduceFinancialStatementByPeriod {
          if(isResponseError(response))
              return response;
 
+         if(isEmptyFinancialOperationToCalculateBalance(response))
+             return response;
+
          double balance = setBalanceAmount(response.content());
          FinancialStatement statement = new FinancialStatement(balance, LocalDate.parse(initialDate), LocalDate.parse(finalDate));
          saveStatementInCache(statement);
@@ -35,6 +39,10 @@ public class ProduceFinancialStatementByPeriod {
 
          //TODO: gera o statement para salvar em base cache para novas buscas e devolve o dto
         //TODO: para gerar cache ter evento q sobe e um listener limpa cache
+    }
+
+    private boolean isEmptyFinancialOperationToCalculateBalance(APIResponse response) {
+        return response.getMessage().equals(EMPTY_SUCCESS);
     }
 
     //TODO: criar classe p isso
