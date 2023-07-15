@@ -18,6 +18,17 @@ public class ResponseError extends APIResponse {
         errors = convertAnyExceptionToMessageList(ex);
     }
 
+    public ResponseError(int status, String message, BusinessException ex) {
+        super(status, message);
+        errors = convertBusinessExceptionToMessageList(ex);
+    }
+
+    private List<Message> convertBusinessExceptionToMessageList(BusinessException ex) {
+        return new ArrayList<>(List.of(
+           new Message(ex.getMessage(), ex.getProperty())
+        ));
+    }
+
     private List<Message> buildMessagesFromBusinessException(List<BusinessException> errors) {
 
         if(errors == null)
