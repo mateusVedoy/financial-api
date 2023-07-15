@@ -46,7 +46,7 @@ class FinancialOperationControllerTest {
         ResponseSuccess response = new ResponseSuccess<>(201, "Financial Operation saved successfully.");
         given(createFinancialOperation.save(dto)).willReturn(response);
         ResponseEntity result = controller.save(dto);
-        String responseSuccessToString = "ResponseSuccess{data:null, status:201, message:'Financial Operation saved successfully.'}";
+        String responseSuccessToString = "ResponseSuccess: {data:null, status:201, message:'Financial Operation saved successfully.'}";
         assertEquals(result.getBody().toString(), responseSuccessToString);
     }
     @Test
