@@ -32,13 +32,19 @@ public class FindFinancialOperationByPeriod {
 
     public APIResponse findByPeriod(String initialDate, String finalDate) {
 
+        if(!wasDatesToPeriodInformedCorrectly(initialDate, finalDate))
+            return new ResponseError(400, ERROR, new BusinessException("Cannot cast wrong dates format. Required pattern YYYY-MM-DD", "financialStatement.dates"));
+
         if(!isDatesAbleToBeAPeriod(initialDate, finalDate))
-            return new ResponseError(400, ERROR, new BusinessException("Cannot cast wrong dates format. required pattern YYYY-MM-DD", "financialStatement.dates"));
+            return new ResponseError(400, ERROR, new BusinessException("Final date cannot be less than initial date", "financialStatement.dates"));
 
         try{
-            List<FinancialOperation> operations = repository.findByPeriod(initialDate, finalDate);
+            List<FinancialOperation> operations = repository.findByPeriod(
+                    parseStringToLocalDate(initialDate),
+                    parseStringToLocalDate(finalDate)
+            );
             if(isOperationsPerPeriodEmpty(operations))
-                return new ResponseSuccess<>(200,EMPTY_SUCCESS);
+                return new ResponseSuccess<FinancialOperationDTO>(200,EMPTY_SUCCESS);
             else
                 return buildAPIResponseWithData(convertList(operations));
         }catch (Exception ex) {
@@ -47,6 +53,9 @@ public class FindFinancialOperationByPeriod {
 
     }
 
+    private LocalDate parseStringToLocalDate(String date) {
+        return LocalDate.parse(date);
+    }
     private boolean isOperationsPerPeriodEmpty(List<FinancialOperation> operations){
         return operations.size() == 0;
     }
@@ -68,7 +77,7 @@ public class FindFinancialOperationByPeriod {
     }
 
     private boolean wasDatesToPeriodInformedCorrectly(String initialDate, String finalDate) {
-        Pattern pattern = Pattern.compile("/[0-9]{4}(-[0-9]{2}){2}/");
+        Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
         Matcher initialDateMatcher = pattern.matcher(initialDate);
         Matcher finalDateMatcher = pattern.matcher(finalDate);
         return initialDateMatcher.matches() && finalDateMatcher.matches();
