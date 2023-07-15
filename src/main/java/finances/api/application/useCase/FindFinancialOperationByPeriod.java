@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 @Component
 public class FindFinancialOperationByPeriod {
 
-    private static final String EMPTY_SUCCESS = "There's no financial operation to be recovered";
+    private static final String EMPTY_SUCCESS = "There's no financial operation for period";
     private static final String SUCCESS = "Financial operation fetched bellow";
     private static final String ERROR = "Something went wrong. Consult errors.";
 
