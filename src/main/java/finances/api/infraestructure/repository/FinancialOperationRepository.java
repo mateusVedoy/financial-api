@@ -10,9 +10,9 @@ import finances.api.infraestructure.postgres.model.FinancialOperationModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class FinancialOperationRepository implements IRepository<FinancialOperation> {
@@ -40,8 +40,8 @@ public class FinancialOperationRepository implements IRepository<FinancialOperat
     }
 
     @Override
-    public List<FinancialOperation> findByPeriod(String initialDate, String finalDate) {
-        List<FinancialOperationModel> results = repository.findCodeAndAmountFromFinancialOperationByPeriod(initialDate, finalDate);
+    public List<FinancialOperation> findByPeriod(LocalDate initialDate, LocalDate finalDate) {
+        List<FinancialOperationModel> results = repository.findFinancialOperationModelByPeriod(initialDate, finalDate);
         return convertList(results);
     }
 
