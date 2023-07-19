@@ -5,6 +5,7 @@ import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseError;
 import finances.api.application.response.ResponseSuccess;
+import finances.api.application.response.StatusMessage;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
@@ -17,11 +18,6 @@ import java.util.List;
 
 @Component
 public class FindAllFinancialOperation {
-
-    private static final String EMPTY_SUCCESS = "There's no financial operation to be recovered";
-    private static final String SUCCESS = "Financial operation fetched bellow";
-    private static final String ERROR = "Something went wrong. Consult errors.";
-
     @Autowired
     private FinancialOperationRepository repository;
 
@@ -32,16 +28,16 @@ public class FindAllFinancialOperation {
         try{
             List<FinancialOperation> list = repository.findAll();
             if(!isThereAnyValueToBeSolved(list))
-                return new ResponseSuccess<>(200,EMPTY_SUCCESS);
+                return new ResponseSuccess<>(200, StatusMessage.EMPTY_SUCCESS.getValue());
             else
                 return buildAPIResponseWithData(convertList(list));
         }catch (Exception ex) {
-            return new ResponseError(400, ERROR, ex);
+            return new ResponseError(400, StatusMessage.ERROR.getValue(), ex);
         }
     }
 
     private APIResponse buildAPIResponseWithData(List<FinancialOperationDTO> list) {
-        return new ResponseSuccess<FinancialOperationDTO>(200, SUCCESS, list);
+        return new ResponseSuccess<FinancialOperationDTO>(200, StatusMessage.SUCCESS.getValue(), list);
     }
     private List<FinancialOperationDTO> convertList(List<FinancialOperation> list) {
         List<FinancialOperationDTO> operationList = new ArrayList<>();

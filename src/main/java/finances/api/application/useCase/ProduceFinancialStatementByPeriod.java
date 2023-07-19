@@ -1,43 +1,44 @@
 package finances.api.application.useCase;
 
 import finances.api.application.converter.FinancialOperationConverter;
+import finances.api.application.converter.FinancialStatementConverter;
 import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.dto.FinancialStatementDTO;
 import finances.api.application.dto.OperationTypeDTO;
 import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseError;
 import finances.api.application.response.ResponseSuccess;
+import finances.api.application.response.StatusMessage;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.entity.FinancialStatement;
 import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Component
-public class ProduceFinancialStatementByPeriod {
 
-    private static final String SUCCESS = "Financial statement by period bellow. ";
-    private static final String EMPTY_SUCCESS = "There's no financial operation for period";
-    private static final String ERROR = "Something went wrong. Consult errors.";
+public class ProduceFinancialStatementByPeriod {
     @Autowired
     private FindFinancialOperationByPeriod findFinancialOperationByPeriod;
     @Autowired
+    private FinancialStatementConverter statementConverter;
+    @Autowired
     private FinancialOperationConverter converter;
-    //TODO: rever essa parte do stament
-    //TODO: aqui vou receber model, converter p dto e daí fazer o calc de balance
+
     public APIResponse produce(String initialDate, String finalDate) {
 
         FinancialStatement statement = new FinancialStatement(initialDate, finalDate);
 
         if(!statement.isValid())
-            return new ResponseError(400, ERROR, statement.getErrors());
+            return new ResponseError(400, StatusMessage.ERROR.getValue(), statement.getErrors());
 
-        //antes de buscar na base os dados, buscará em cache pelo periodo
          APIResponse response = findFinancialOperationByPeriod.findByPeriod(
                  statement.getStartDate(),
                  statement.getFinalDate()
@@ -49,21 +50,15 @@ public class ProduceFinancialStatementByPeriod {
          if(isEmptyFinancialOperationToCalculateBalance(response))
              return response;
 
-     //TODO: gera o statement para salvar em base cache para novas buscas e devolve o dto
-     //TODO: para gerar cache ter evento q sobe e um listener limpa cache
-
-        //aqui gero o calc e devolvo p usuario o resultado
-
         try{
             List<FinancialOperationDTO> operationDTOS = convertList(response.content());
             double balance = setBalanceAmount(operationDTOS);
             statement.setBalance(balance);
-            saveStatementInCache(statement);
         }catch(BusinessException exception){
-            return new ResponseError(400, ERROR, exception);
+            return new ResponseError(400, StatusMessage.ERROR.getValue(), exception);
         }
         FinancialStatementDTO statementDTO = financialStatementDTOConverter(statement);
-        return new ResponseSuccess<FinancialStatementDTO>(200, SUCCESS, List.of(statementDTO));
+        return new ResponseSuccess<FinancialStatementDTO>(200, StatusMessage.SUCCESS.getValue(), List.of(statementDTO));
     }
 
     private List<FinancialOperationDTO> convertList(List<FinancialOperation> list) {
@@ -79,18 +74,16 @@ public class ProduceFinancialStatementByPeriod {
     }
 
     private boolean isEmptyFinancialOperationToCalculateBalance(APIResponse response) {
-        return response.getMessage().equals(EMPTY_SUCCESS);
+        return response.getMessage().equals(StatusMessage.EMPTY_SUCCESS.getValue());
     }
 
-    //TODO: criar classe p isso
     private FinancialStatementDTO financialStatementDTOConverter(FinancialStatement financialStatement) {
-        return new FinancialStatementDTO(financialStatement.getState(), financialStatement.getBalance(), financialStatement.getStartDate().toString(), financialStatement.getFinalDate().toString());
-    }
 
-    private void saveStatementInCache(FinancialStatement statement) {
-        //TODO: aqui depois gerar cache do dado
-        //TODO: precisa haver maneira de limpar cache qnd houver novo registro para o periodo
-        System.out.println(statement);
+        try{
+            return statementConverter.convert(financialStatement);
+        }catch (BusinessValidationError error) {
+            throw new BusinessException("Error during converting financial statement to its dto", "financialStatement");
+        }
     }
 
     private boolean isResponseError(APIResponse response){
