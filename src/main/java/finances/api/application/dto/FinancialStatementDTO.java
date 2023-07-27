@@ -1,8 +1,9 @@
 package finances.api.application.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FinancialStatementDTO {
+public class FinancialStatementDTO implements Serializable {
     private String state;
     private double balance;
     private FinancialStatementPeriodDTO period;

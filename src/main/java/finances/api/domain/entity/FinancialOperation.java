@@ -1,10 +1,11 @@
 package finances.api.domain.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class FinancialOperation extends Entity {
+public class FinancialOperation extends Entity implements Serializable {
 
     private Long id;
     private String type;

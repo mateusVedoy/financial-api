@@ -1,10 +1,11 @@
 package finances.api.application.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
-public class FinancialOperationDTO {
+public class FinancialOperationDTO implements Serializable {
     private Long id;
     private String type;
     private double amount;

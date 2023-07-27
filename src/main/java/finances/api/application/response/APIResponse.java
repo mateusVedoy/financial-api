@@ -1,9 +1,10 @@
 package finances.api.application.response;
 import finances.api.domain.exception.BusinessException;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class APIResponse<T>  {
+public abstract class APIResponse<T>  implements Serializable {
     protected int status;
     protected String message;
 
