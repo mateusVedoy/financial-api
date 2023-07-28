@@ -17,13 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Component
-
+@Cacheable(value = "cache")
 public class ProduceFinancialStatementByPeriod {
     @Autowired
     private FindFinancialOperationByPeriod findFinancialOperationByPeriod;

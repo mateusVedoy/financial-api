@@ -14,7 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 
 @Component
-
+@CacheEvict(value = "cache", allEntries = true)
 public class CreateFinancialOperation {
     @Autowired
     private FinancialOperationDTOConverter converter;

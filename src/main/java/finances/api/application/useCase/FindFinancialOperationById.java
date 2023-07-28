@@ -8,12 +8,14 @@ import finances.api.application.response.ResponseSuccess;
 import finances.api.application.response.StatusMessage;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
+@Cacheable(value = "operationById")
 public class FindFinancialOperationById {
     @Autowired
     private FinancialOperationRepository repository;

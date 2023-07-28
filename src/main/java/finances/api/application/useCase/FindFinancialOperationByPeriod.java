@@ -7,12 +7,14 @@ import finances.api.application.response.StatusMessage;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Component
+@Cacheable(value = "cache")
 public class FindFinancialOperationByPeriod {
 
     @Autowired

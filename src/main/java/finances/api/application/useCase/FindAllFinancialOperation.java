@@ -11,12 +11,14 @@ import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Cacheable(value = "cache")
 public class FindAllFinancialOperation {
     @Autowired
     private FinancialOperationRepository repository;
