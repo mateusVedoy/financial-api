@@ -15,7 +15,9 @@ public class FinancialStatement extends Entity {
     private double balance;
     private LocalDate startDate;
     private LocalDate finalDate;
-    private List<FinancialOperation> operations;
+
+    private double totalInputAmount;
+    private double totalOutputAmount;
 
     public FinancialStatement(){
         super();
@@ -59,6 +61,21 @@ public class FinancialStatement extends Entity {
         return dateMatcher.matches();
     }
 
+    public double getTotalInputAmount() {
+        return totalInputAmount;
+    }
+
+    public double getTotalOutputAmount() {
+        return totalOutputAmount;
+    }
+    public void setTotalInputAmount(double totalInputAmount) {
+        this.totalInputAmount = totalInputAmount;
+    }
+
+    public void setTotalOutputAmount(double totalOutputAmount) {
+        this.totalOutputAmount = totalOutputAmount;
+    }
+
     private LocalDate parseStringDateToLocalDate(String dt) {
         if(wasDatesToPeriodInformedCorrectly(dt))
             return LocalDate.parse(dt);
@@ -94,13 +111,5 @@ public class FinancialStatement extends Entity {
 
     public LocalDate getFinalDate() {
         return finalDate;
-    }
-
-    public List<FinancialOperation> getOperations() {
-        return operations;
-    }
-
-    public void setOperations(List<FinancialOperation> operations) {
-        this.operations = operations;
     }
 }
