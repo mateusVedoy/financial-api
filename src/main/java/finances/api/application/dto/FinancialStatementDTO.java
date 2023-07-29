@@ -7,21 +7,28 @@ public class FinancialStatementDTO implements Serializable {
     private String state;
     private double balance;
     private FinancialStatementPeriodDTO period;
-    private List<FinancialOperationDTO> financialOperations;
+    private FinancialStatementTotalDTO total;
 
-    public FinancialStatementDTO(String state, double balance, String initialDate, String finalDate) {
+    public FinancialStatementDTO(
+            String state,
+            double balance,
+            String initialDate,
+            String finalDate,
+            FinancialStatementTotalDTO total) {
         this.state = state;
         this.balance = balance;
         this.period = setPeriod(initialDate, finalDate);
+        this.total = total;
     }
-
+    public void setTotal(FinancialStatementTotalDTO total) {
+        this.total = total;
+    }
     private FinancialStatementPeriodDTO setPeriod(String init, String fin) {
         return new FinancialStatementPeriodDTO(init, fin);
     }
-    public void setFinancialOperations(List<FinancialOperationDTO> financialOperations) {
-        this.financialOperations = financialOperations;
+    public FinancialStatementTotalDTO getTotal() {
+        return total;
     }
-
     public String getState() {
         return state;
     }
@@ -32,9 +39,5 @@ public class FinancialStatementDTO implements Serializable {
 
     public FinancialStatementPeriodDTO getPeriod() {
         return period;
-    }
-
-    public List<FinancialOperationDTO> getFinancialOperations() {
-        return financialOperations;
     }
 }
