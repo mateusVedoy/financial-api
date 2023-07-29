@@ -4,6 +4,7 @@ import finances.api.application.converter.FinancialOperationConverter;
 import finances.api.application.converter.FinancialStatementConverter;
 import finances.api.application.dto.FinancialOperationDTO;
 import finances.api.application.dto.FinancialStatementDTO;
+import finances.api.application.dto.FinancialStatementTotalDTO;
 import finances.api.application.dto.OperationTypeDTO;
 import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseError;
@@ -52,7 +53,11 @@ public class ProduceFinancialStatementByPeriod {
         try{
             List<FinancialOperationDTO> operationDTOS = convertList(response.content());
             double balance = setBalanceAmount(operationDTOS);
+            double totalInputs = setTotalInputAmount(operationDTOS);
+            double totalOutputs = setTotalOutputAmount(operationDTOS);
             statement.setBalance(balance);
+            statement.setTotalInputAmount(totalInputs);
+            statement.setTotalOutputAmount(totalOutputs);
         }catch(BusinessException exception){
             return new ResponseError(400, StatusMessage.ERROR.getValue(), exception);
         }
@@ -98,6 +103,27 @@ public class ProduceFinancialStatementByPeriod {
                 amount += operation.getAmount();
             else
                 amount -= operation.getAmount();
+        }
+        return amount;
+    }
+
+    private double setTotalInputAmount(List<FinancialOperationDTO> financialOperations) {
+        if(isFinancialOperationListEmptyOrNull(financialOperations))
+            return 0;
+        double amount = 0;
+        for (FinancialOperationDTO operation: financialOperations) {
+            if(isFinancialOperationTypeInput(operation))
+                amount += operation.getAmount();
+        }
+        return amount;
+    }
+    private double setTotalOutputAmount(List<FinancialOperationDTO> financialOperations) {
+        if(isFinancialOperationListEmptyOrNull(financialOperations))
+            return 0;
+        double amount = 0;
+        for (FinancialOperationDTO operation: financialOperations) {
+            if(!isFinancialOperationTypeInput(operation))
+                amount += operation.getAmount();
         }
         return amount;
     }
