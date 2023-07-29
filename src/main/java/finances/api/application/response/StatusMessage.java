@@ -1,9 +1,9 @@
 package finances.api.application.response;
 
 public enum StatusMessage {
-    EMPTY_SUCCESS("There's no financial operation to be fetched"),
-    SUCCESS("Financial operation fetched bellow"),
-    CREATED("Financial operation created successfully"),
+    EMPTY_SUCCESS("There's no financial Operation to be recovered."),
+    SUCCESS("Financial Operation fetched bellow."),
+    CREATED("Financial Operation saved successfully."),
     ERROR("Something went wrong. Consult errors.");
 
 
