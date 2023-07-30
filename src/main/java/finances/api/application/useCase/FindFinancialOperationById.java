@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
-@Cacheable(value = "operationById")
 public class FindFinancialOperationById {
     @Autowired
     private FinancialOperationRepository repository;

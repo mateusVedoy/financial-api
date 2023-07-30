@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Cacheable(value = "cache")
 public class FindAllFinancialOperation {
     @Autowired
     private FinancialOperationRepository repository;
-
     @Autowired
     private FinancialOperationConverter converter;
 
