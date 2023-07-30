@@ -23,14 +23,11 @@ import java.util.List;
 
 
 @Component
-@Cacheable(value = "cache")
 public class ProduceFinancialStatementByPeriod {
     @Autowired
     private FindFinancialOperationByPeriod findFinancialOperationByPeriod;
     @Autowired
     private FinancialStatementConverter statementConverter;
-    @Autowired
-    private FinancialOperationConverter converter;
 
     public APIResponse produce(String initialDate, String finalDate) {
 
@@ -51,7 +48,7 @@ public class ProduceFinancialStatementByPeriod {
              return response;
 
         try{
-            List<FinancialOperationDTO> operationDTOS = convertList(response.content());
+            List<FinancialOperationDTO> operationDTOS = response.content();
             double balance = setBalanceAmount(operationDTOS);
             double totalInputs = setTotalInputAmount(operationDTOS);
             double totalOutputs = setTotalOutputAmount(operationDTOS);
@@ -63,18 +60,6 @@ public class ProduceFinancialStatementByPeriod {
         }
         FinancialStatementDTO statementDTO = financialStatementDTOConverter(statement);
         return new ResponseSuccess<FinancialStatementDTO>(200, StatusMessage.SUCCESS.getValue(), List.of(statementDTO));
-    }
-
-    private List<FinancialOperationDTO> convertList(List<FinancialOperation> list) {
-        List<FinancialOperationDTO> operationList = new ArrayList<>();
-        list.forEach(value -> {
-            try {
-                operationList.add(converter.convert(value));
-            } catch (BusinessValidationError e) {
-                throw new BusinessException("Error during conversion process", "convert.entity.to.dto");
-            }
-        });
-        return operationList;
     }
 
     private boolean isEmptyFinancialOperationToCalculateBalance(APIResponse response) {
