@@ -8,6 +8,7 @@ public abstract class APIResponse<T>  implements Serializable {
     protected int status;
     protected String message;
 
+    public APIResponse() {}
 
     public APIResponse(int status, String message) {
         this.status = status;

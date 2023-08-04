@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseError extends APIResponse {
+
+    public ResponseError(){
+        super();
+    }
     private List<Message> errors;
 
     public ResponseError(int status, String message, List<BusinessException> errors) {

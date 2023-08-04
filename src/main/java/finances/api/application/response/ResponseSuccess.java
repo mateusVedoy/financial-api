@@ -5,6 +5,10 @@ import java.util.List;
 public class ResponseSuccess<T> extends APIResponse {
     private List<T> data;
 
+    public ResponseSuccess(){
+        super();
+    }
+
     public ResponseSuccess(int status, String message) {
         super(status, message);
     }
