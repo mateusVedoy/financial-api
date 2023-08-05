@@ -1,10 +1,6 @@
 package finances.api.domain.entity;
 
-import finances.api.domain.exception.BusinessException;
-
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +11,6 @@ public class FinancialStatement extends Entity {
     private double balance;
     private LocalDate startDate;
     private LocalDate finalDate;
-
     private double totalInputAmount;
     private double totalOutputAmount;
 
