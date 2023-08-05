@@ -10,17 +10,13 @@ import finances.api.application.response.APIResponse;
 import finances.api.application.response.ResponseError;
 import finances.api.application.response.ResponseSuccess;
 import finances.api.application.response.StatusMessage;
-import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.entity.FinancialStatement;
 import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 @Component
 public class ProduceFinancialStatementByPeriod {
