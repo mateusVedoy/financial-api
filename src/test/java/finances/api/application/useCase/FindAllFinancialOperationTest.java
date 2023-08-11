@@ -5,7 +5,6 @@ import finances.api.application.response.APIResponse;
 import finances.api.domain.entity.FinancialOperation;
 import finances.api.domain.exception.BusinessException;
 import finances.api.domain.exception.BusinessValidationError;
-import finances.api.infraestructure.postgres.model.FinancialOperationModel;
 import finances.api.infraestructure.repository.FinancialOperationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ public class FindAllFinancialOperationTest {
         given(repository.findAll()).willReturn(new ArrayList<FinancialOperation>());
         APIResponse response = findAll.findAll();
         assertEquals(response.getStatus(), 200);
-        assertEquals(response.getMessage(), "There's no financial operation to be recovered");
+        assertEquals(response.getMessage(), "There's no financial Operation to be recovered.");
     }
 
     @Test
@@ -50,7 +49,7 @@ public class FindAllFinancialOperationTest {
         )));
         APIResponse response = findAll.findAll();
         assertEquals(response.getStatus(), 200);
-        assertEquals(response.getMessage(), "Financial operation fetched bellow");
+        assertEquals(response.getMessage(), "Financial Operation fetched bellow.");
     }
 
     @Test
