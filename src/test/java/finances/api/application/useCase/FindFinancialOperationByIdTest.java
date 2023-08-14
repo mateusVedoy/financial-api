@@ -55,7 +55,7 @@ class FindFinancialOperationByIdTest {
         given(repository.findById(anyLong())).willReturn(operation);
         given(converter.convert(operation)).willReturn(dto);
         assertEquals(findFinancialOperationById.findById(1L).getStatus(), 200);
-        assertEquals(findFinancialOperationById.findById(1L).getMessage(), "Financial operation fetched bellow");
+        assertEquals(findFinancialOperationById.findById(1L).getMessage(), "Financial Operation fetched bellow.");
         assertInstanceOf(ResponseSuccess.class, findFinancialOperationById.findById(1L));
     }
 
@@ -63,7 +63,7 @@ class FindFinancialOperationByIdTest {
     public void shouldReturnResponseSuccessEvenWhenCatchNoSuchElementException() {
         given(repository.findById(anyLong())).willThrow(new NoSuchElementException());
         assertInstanceOf(ResponseSuccess.class, findFinancialOperationById.findById(anyLong()));
-        assertEquals(findFinancialOperationById.findById(anyLong()).getMessage(), "There's no data to be fetched");
+        assertEquals(findFinancialOperationById.findById(anyLong()).getMessage(), "There's no financial Operation to be recovered.");
         assertEquals(findFinancialOperationById.findById(anyLong()).getStatus(), 200);
     }
 
