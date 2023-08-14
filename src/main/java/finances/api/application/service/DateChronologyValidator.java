@@ -15,7 +15,7 @@ public class DateChronologyValidator implements IValidator<LocalDate> {
             return false;
 
         for(int x = 0; x < objects.size(); x++){
-            if(!isDatesChronologyValid(objects.get(x), objects.get(x++)))
+            if(!isDatesChronologyValid(objects.get(x), objects.get(++x)))
                 return false;
         }
 
